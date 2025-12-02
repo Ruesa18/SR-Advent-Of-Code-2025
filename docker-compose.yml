@@ -1,0 +1,26 @@
+services:
+    web:
+        build:
+            context: "."
+            target: dev
+            args:
+                DDE_UID: ${DDE_UID}
+                DDE_GID: ${DDE_GID}
+        environment:
+            - VIRTUAL_HOST=advent.test
+            - SSH_AUTH_SOCK=/tmp/ssh-agent/socket
+        volumes:
+            - ./:/var/www
+            - ssh-agent_socket-dir:/tmp/ssh-agent:ro
+        hostname: advent
+        domainname: test
+
+networks:
+    default:
+        name: "dde"
+        external: true
+
+volumes:
+    ssh-agent_socket-dir:
+        name: dde_ssh-agent_socket-dir
+        external: true
