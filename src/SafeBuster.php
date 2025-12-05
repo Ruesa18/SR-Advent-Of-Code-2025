@@ -31,4 +31,40 @@ class SafeBuster {
 
         return (($currentNumber % 100) + 100) % 100;
     }
+
+    public function bustSafeWithAllZeroes(array $instructions): int {
+        $zeroCounter = 0;
+        $currentNumber = 50;
+        foreach($instructions as $instruction) {
+            if($instruction === '') {
+                return $zeroCounter;
+            }
+            $direction = $instruction[0];
+            $movement = (int) substr($instruction, 1);
+            if($direction === 'L') {
+                if($currentNumber === 0) {
+                    $currentNumber = 100;
+                }
+                for($i = 0; $i < $movement; $i++) {
+                    $currentNumber--;
+                    if($currentNumber === 0) {
+                        $currentNumber = 100;
+                        $zeroCounter++;
+                    }
+                }
+            } else {
+                if($currentNumber === 100) {
+                    $currentNumber = 0;
+                }
+                for($i = 0; $i < $movement; $i++) {
+                    $currentNumber++;
+                    if($currentNumber === 100) {
+                        $currentNumber = 0;
+                        $zeroCounter++;
+                    }
+                }
+            }
+        }
+        return $zeroCounter;
+    }
 }
